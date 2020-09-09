@@ -1,6 +1,8 @@
 import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 import useAxios from "./useAxios";
+import UseTap from "./Components/UseTap";
+import UseInput from "./Components/UseInput";
 
 const Number = styled.div`
   text-align: center;
@@ -21,30 +23,6 @@ const Number = styled.div`
     border-radius: 0 !important;
   }
 `;
-
-// useState 활용
-const content = [
-  {
-    tab: `Tab01`,
-    desc: `This is Tab01`,
-  },
-  {
-    tab: `Tab02`,
-    desc: `This is Tab02`,
-  },
-];
-
-// 탭 만들기
-const useTabs = (initialTab, allTabs) => {
-  const [currentIndex, setCurrentIndex] = useState(initialTab);
-  if (!allTabs || !Array.isArray(allTabs)) {
-    return;
-  }
-  return {
-    currentItem: allTabs[currentIndex],
-    changeItem: setCurrentIndex,
-  };
-};
 
 const useClick = (onClick) => {
   const element = useRef();
@@ -268,9 +246,6 @@ function App() {
     aborted
   );
 
-  // 탭 만들기
-  const { currentItem, changeItem } = useTabs(0, content);
-
   // useState 활용
   const hello = () => console.log(`hello world`);
   const click = useClick(hello);
@@ -279,6 +254,7 @@ function App() {
     <div className="App">
       <Number>
         <h1 {...fadeInH1}>탭</h1> <span>{onLine ? "Online" : "Offline"}</span>
+        <UseTap />
         <div
           style={{
             position: "fixed",
@@ -287,14 +263,6 @@ function App() {
           }}
         >
           scroll status check
-        </div>
-        <div>
-          {content.map((section, index) => (
-            <button onClick={() => changeItem(index)} key={index}>
-              {section.tab}
-            </button>
-          ))}
-          <p>{currentItem.desc}</p>
         </div>
         <button ref={click}>Click!</button>
         <button onClick={confirmClick}>confirm button</button>
@@ -325,6 +293,7 @@ function App() {
           <button onClick={refetch}>Refetch</button>
         </div>
       </Number>
+      <UseInput />
     </div>
   );
 }
